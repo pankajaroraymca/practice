@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "target": "ES2020", // tells the typescript to compile code that should be compatible with ES6
+
+    "module": "commonjs", // Specifying typescript should use module system commonJS. CommonJS is a module system which is responsible for all import export operation in node js.
+                          // by default nodejs uses common js module system
+                          // even if you use modern import export sytanx for module operations, when ts compile code in js, it will be internally using module.export and require method.
+                          // there are also other modern module system like ES6 etc.
+                          // when you dont specify the common js module and try to access modules via import statment, it will throw error. you have to use then require because node js natively unserstand require.
+
+    "outDir": "./dist", // compilled js code will go there.
+
+    "rootDir": "./", // specifying the directory on which typescript will compile the code. In short typescript will be applicable to all those files inside this directory.
+
+    "strict": true, // enables the strict checking like variables have a defined type,make null and undefined distinct types
+
+    "esModuleInterop": true, // usually users think why should i define this when i already told the typescipt to use common js for module system.
+                            // the ans is - many npm libraries are written in common js. and they do not have the default export .
+                            // so when you access import exppress from 'express', it will give you error when esModuleInterop is false.
+                            // when you set it to true, it Treat CommonJS module.exports = express as if it were export default express.
+                            // or you can usee the old method import * as express from 'express'
+    "lib": ["ES2020"],
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true
+
+  },
+   "include": [
+    "server.ts",
+    "app.ts",
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

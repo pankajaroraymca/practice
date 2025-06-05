@@ -100,3 +100,8 @@ console.log("number prototype method/properties", Object.getOwnPropertyNames(num
 
 // String prototype method/properties
 console.log("string prototype method/properties", Object.getOwnPropertyNames(string.__proto__))
+
+// JS follow the prototype desing pattern.
+// What is prototype design pattern?
+// It is a creational design pattern which is used by JS and other many other languages. Instead of creating the objects from scratch, by using this pattern, an object can copies the properties of other objects.
+// Like in JS, object can inherit the properties of another object and it is knows as prototype chain
