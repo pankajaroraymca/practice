@@ -4,11 +4,13 @@
 
 -- 2) A column can have a maximum data of 1 Gb.
 
--- 3) A row can have maximum of 1600 columns. Thus a row can have maximum data of 1.6TB. Note: A row stores data in a page. and a maximum size of page is 8KB
+-- 3) A row can have maximum of 1600 columns. Thus a row can have maximum data of 1.6TB. Note: A row stores data in a page.
+-- A page has a maximum size of 8Kb and a maximum size of page is 8KB.
 -- So how come row has 1.6TB data?. Internally psql uses TOAST ( The Oversized Attribute Based Technique ). Basically large data sets are stored in separate toast table.
--- and onlt rhe reference is stored in actual column of that row. So in this way a can have 8Kb size but practically it has 1.6 TB data with toasting.
+-- and only the reference is stored in actual column of that row. So in this way a can have 8Kb size but practically it has 1.6 TB data with toasting.
 
 -- 4) A table can have practically unlimited number of rows unless 32 TB data is reached.
+-- 5) A heap Page can have multiple rows. It starts with 0. But the maximum size of heap page is 8Kb. A Heap page is just a memory block in disk
 
 
 ----------------------------------------------------Truncate command ------------------------------------------------------------
@@ -51,6 +53,88 @@ SELECT name, salary FROM employees WHERE salary > 50000;
 -- > → operator
 -- 50000 → constant
 -- ; → special character
+
+
+------------------------------------------------------ SEQUENCE --------------------------------------------------------------
+
+-- A sequence is a object in the database which gives you the functionality of a counter. This sequence runs independently
+-- from the table.
+
+CREATE SEQUENCE emp_seq
+  START WITH 1
+  INCREMENT BY 1
+  MINVALUE 1
+  MAXVALUE 999999;
+
+-- You can get the latest sequence value
+SELECT nextval('emp_seq'); -- it will give you the value as well as increment the counter
+
+SELECT currval('emp_seq'); -- it will give you the last counter VALUES
+
+SELECT setval('emp_seq', 5); -- it wil set the value to that number
+
+-- Note: SERIAL datatype internally uses sequence function
+-- SERIAL = INT + sequence + default. SERIAL is just a sugar syntax version for sequence.
+
+
+----------------------------------------- Case Insensitiv Matching -----------------------------------------------
+
+Select * from employee where name ~* 'panKaj';
+
+----------------------------------------How to take database backup -------------------------------------------------------
+
+sudo -u postgres pg_dump -d your_db_name > backup.sql -- you are logging in with the postgres user and taking the backup of your_db_name database.
+
+sudo -u postgres psql -d your_db_name < backup.sql -- restore the backup. But first make sure your_db_name database exist.
+
+
+-------------------------------------What are parralel queries? -----------------------------------------------------------
+
+-- This technique is used by many databases to speed up the process of sql queries by leverrging multi core system.
+-- Multiple worker process works at the same to complete the single query.
+
+-- When parralel queries initiates?
+-- Usually when sql runs, only one process is working. But when complex queries came, then parralel queries come into picture
+-- Planner decided whether to use parralel queries or not. There are some factors:
+-- 1) Multiple joins on large data sets.
+-- 2) Aggragate functions
+-- etc
+
+-- Note: Parralel queries works only in select, not in insert, update and delete.
+
+
+-----------------------------------------------Collation -----------------------------------------------------------------
+
+-- It is the set of rules that determines how text string are compared and sorted.
+
+SELECT 'a' < 'B'; -- result depends on collation. By default en_US collation is applied. So true
+
+SELECT 'a' < 'B' COLLATE "C"; -- Binary Collation. Result is false
+
+-- There are mainly 3 types of collation.
+
+--1) Case sensitive. a!=A
+--2) Accent Sensitive 'e' != 'é'
+--3) Locale Senstivite : depends upon local cultures. 
+
+-------------------------------------------------OLTP and OLAP--------------------------------------------------------------
+
+-- OLTP 
+-- Stands for Online Transaction Processing. It is the system that is responsible for day to day operations in database.
+-- E.g purchasing a product.
+-- It should support faster read and writes
+-- It should follow ACID properties.
+-- Follow best normalization techniques
+
+-- OLAP
+-- Stands for Online Analytical Processing. As the name suggest it is only for analytics purpose only. It uses for analyzing large historical data.
+-- E.g getting the best selling product in the past month.
+-- Complex query with multiple joins and aggregate functions.
+-- It should support faster reads than OLTP
+-- It generally uses denormalize tables for faster reads.
+-- Generally follows Star Schema. Star schema includes fact table and dimensions table
+
+  
 
 
 

@@ -1,7 +1,9 @@
 --------------------------------------------------- DDL Commands --------------------------------------------------------------
 
 -- Data Definition Language Commands are used to define or modify the structure of objects like databases, table, scehmas etc.
--- DDL Commands can not rollbacked unless done in transactions
+-- DDL Commands can not rollbacked unless done in transactions in postgres. But in other databases like mysql, sqllite etc. they are non
+-- transactional even if they are defined in transaction statements.
+
 -- There are 5 DDL commands -
 -- 1) CREATE
 -- 2) ALTER
