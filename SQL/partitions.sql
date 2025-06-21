@@ -21,7 +21,8 @@ CREATE TABLE employee (
     emp_id varchar,
     department varchar,
     age INT,
-    dob DATE
+    dob DATE,
+    is_active BOOLEAN
 ) PARTITION BY RANGE(age);
 
 
@@ -37,9 +38,9 @@ CREATE TABLE employee_30_40 PARTITION OF employee
 -- Range Partition does not allow any default partition for unknown values
 -- Range should not overlap, parent table would not be able to decide which partition to choose.
 
-INSERT INTO employee(name, emp_id, department, age, dob)
-VALUES ('Pankaj', 'E1283', 'APPLICATIONS', 25, '14-08-1999'), -- will go to employee_20_30
-('Shubham', 'E1456', 'APPLICATIONS', 31, '30-08-1999') -- will go to employee_30_40
+INSERT INTO employee(name, emp_id, department, age, dob, is_active)
+VALUES ('Pankaj', 'E1283', 'APPLICATIONS', 25, '1999-08-14', true), -- will go to employee_20_30
+('Shubham', 'E1456', 'APPLICATIONS', 31, '1999-08-30', true) -- will go to employee_30_40
 
 
 ----------------------------------------------------PARTITION BY LIST ----------------------------------------------------------

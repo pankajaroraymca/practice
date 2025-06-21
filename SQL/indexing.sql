@@ -23,8 +23,10 @@
 
 CREATE INDEX on employee(name);
 
+CREATE INDEX idx_user_age ON users(age);
 
------------------------------------------Types of Indexing in Postgres -----------------------------------------------------
+
+-----------------------------------------Types of Indexing Technique in Postgres -----------------------------------------------------
 
 -- There are different types of indexing for different use cases
 -- 1) B-Tree - Default. Best for =, <, >, comparisons. Balanced Binary Tree
@@ -84,7 +86,48 @@ SELECT * FROM employee WHERE name = 'Pankaj';
 
 -- This is much faster than scanning every row!
 
+-----------------------------------------------------Types of Index in Psql ----------------------------------------------------------
+
+-- 1) Clustered and non- clusetered Index 
+
+-- Clustered Index: It physically reorders the table on which clustered index is created.
+-- Only 1 clustered index can be created in a table. Because table can be sorted by only 1 parameter.
+-- Helpful in searching data in ranges. E.g when you query data using between, >, < operators. Better performance
+-- Note: In psql, clustering is not done automatically, if news rows are inserted then we have to re cluster so that rows will be physically sorted.
+
+CLUSTER users USING idx_user_age;
+
+-- Non-Clustered Index
+-- By default in psql, indexes are non clustered.
+-- There can be many non clustered indexes in table
+
+-- 2) Unique ans non-unique indexes
+
+-- Unique Index:
+-- It sets the rule that no two rows can have the same data on which column index is created.
+-- Primary key and unique keyword automatically creates the unique index on those columns
+-- Unique index can be created on combination of multiple columns.
+-- Inserting is slower as uniqueness is checked before insertion.
+
+-- Non-Unique Index
+-- It not set ups the uniqueness constraint, it just helps in faster data retreval.
+
+
 
 -----------------------------------------------------How do we know if indexing is working ---------------------------------------------
 
+EXPLAIN Select * from employee WHERE emp_id = 'E1283';
 
+
+-- If index is working, you will see something like index scan.
+-- Indexing won't work on small tables < 1000 rows. It is better to seq scan table rather than using indexes.
+
+-- Index Scan using employee_emp_id_idx on employee  (cost=0.29..8.30 rows=1 width=... )
+
+
+--If indexes are not working, you will see seq scan.
+
+--   ->  Seq Scan on employee_20_30 employee_1  (cost=0.00..1.01 rows=1 width=121)
+--         Filter: ((emp_id)::text = 'E1283'::text)
+--   ->  Seq Scan on employee_30_40 employee_2  (cost=0.00..1.01 rows=1 width=121)
+--         Filter: ((emp_id)::text = 'E1283'::text)

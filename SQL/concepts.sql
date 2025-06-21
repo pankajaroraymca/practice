@@ -134,6 +134,41 @@ SELECT 'a' < 'B' COLLATE "C"; -- Binary Collation. Result is false
 -- It generally uses denormalize tables for faster reads.
 -- Generally follows Star Schema. Star schema includes fact table and dimensions table
 
+--------------------------------------------Constraints ------------------------------------------------------------
+
+-- A constraint set a rules to the rows of data
+-- It can be aaplied to multiple columns of the table.
+-- Types of Constraints:
+
+--1) Unique
+--2) Primary Key
+--3) Foreign Key
+--4) Default
+--5) Not Null
+--6) Check
+--7) Index
+
+
+--------------------------------------------Foreign Key ---------------------------------------------------------------
+
+-- It creates the link between two or more tables.
+-- It enforces referencial integrity.
+-- The referenced table can not have a value in foreign column which is not present in child table.
+-- You can not delete the rows from child table unless used CASCASE/ON DELETE
+
+-------------------------------------------- Primary Key --------------------------------------------------------------
+
+-- It is a constraint that is used to uniquely identify rows in table.
+-- Primary key can be set on single column as well as group of columns in a table.
+-- It adds a unique constraint to rows.
+-- A table can have only 1 primary key.
+-- Can not contain null values
+
+-- Note: Unique constraint can have null values. In psql, multiple column can have null values but in other databases like mysql, only 
+-- one row can have null value.
+
+
+
   
 
 
