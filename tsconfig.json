@@ -1,22 +1,22 @@
-// {
-//     "compilerOptions": {
-//         "target": "ES2020", // JavaScript version to output
-//         "module": "CommonJS", // Module system for Node.js
-//         "strict": true, // Enable strict type checking
-//         "outDir": "./dist", // Directory for compiled JavaScript
-//         "rootDir": "./src", // Root directory of your source files
-//         "esModuleInterop": true, // Enable interop between CommonJS and ES modules
-//         "forceConsistentCasingInFileNames": true, // Case-sensitive file imports
-//         "skipLibCheck": true, // Skip type-checking of declaration files
-//         "moduleResolution": "node", // Resolve modules using Node.js conventions
-//         "allowSyntheticDefaultImports": true, // Allow default imports for non-ES modules
-//         "noImplicitAny": false
-//     },
-//     "include": [
-//         "src/**/*"
-//     ], // Files to include in compilation
-//     "exclude": [
-//         "node_modules",
-//         "dist"
-//     ] // Files or directories to exclude
-// }
+{
+    "compilerOptions": {
+        "target": "ES2020", // JavaScript version to output
+        "module": "CommonJS", // Module system for Node.js
+        "strict": true, // Enable strict type checking
+        "outDir": "./dist", // Directory for compiled JavaScript
+        "rootDir": "./src", // Root directory of your source files
+        "esModuleInterop": true, // Enable interop between CommonJS and ES modules
+        "forceConsistentCasingInFileNames": true, // Case-sensitive file imports
+        "skipLibCheck": true, // Skip type-checking of declaration files
+        "moduleResolution": "node", // Resolve modules using Node.js conventions
+        "allowSyntheticDefaultImports": true, // Allow default imports for non-ES modules
+        "noImplicitAny": false
+    },
+    "include": [
+        "src/**/*"
+    ], // Files to include in compilation
+    "exclude": [
+        "node_modules",
+        "dist"
+    ] // Files or directories to exclude
+}
