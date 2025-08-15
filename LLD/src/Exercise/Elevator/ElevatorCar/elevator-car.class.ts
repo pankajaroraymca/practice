@@ -48,13 +48,17 @@ export class ElevatorCar implements IElevatorCar {
         this.display.setDirection(direction)
     }
 
+    getDirection(): EDisplayDirection {
+        return this.direction
+    }
+
     move(floor: number): boolean {
 
         if (floor == this.currentFloor) {
             return true
         }
 
-        if(this.getStatus() != EElevatorCarStatus.IDLE){
+        if (this.getStatus() != EElevatorCarStatus.IDLE) {
             return false
         }
 
@@ -76,6 +80,7 @@ export class ElevatorCar implements IElevatorCar {
             }
         }
         this.setStatus(EElevatorCarStatus.IDLE)
+        this.setDirection(EDisplayDirection.NONE)
         return true
     }
 }

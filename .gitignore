@@ -3,3 +3,5 @@ LLD/node_modules
 my-app.zip
 JS/node_modules
 NodeJs/node_modules
+kafka/node_modules
+redis/node_modules
