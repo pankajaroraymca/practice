@@ -3,6 +3,8 @@
 // In Node.js, every file is treated as a module. module.exports is the object that a module returns when it's required elsewhere.
 // This is a common js practice of exporting importing.
 
+// In Node.js, module.exports is used to export functions, objects, variables, or classes from one file (module) so they can be imported and reused in another file using require().
+
 // -----------------------------------------------------Common js version ------------------------------------------------------
 
 // 1) Exporting a function

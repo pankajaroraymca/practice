@@ -3,8 +3,10 @@ import { IExternalButton } from "./external-button.interface"
 
 export class ExternalButton implements IExternalButton {
     private elevatorControllerMap: Map<number, IElevatorCarController>
-    constructor() {
+    private floor: number
+    constructor(floor: number) {
         this.elevatorControllerMap = new Map()
+        this.floor = floor
      }
 
     addElevatorController(elevatorController: IElevatorCarController) {

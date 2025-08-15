@@ -35,3 +35,104 @@ function fib(n, cache = {}) {
   cache[n] = fib(n - 1, cache) + fib(n - 2, cache);
   return cache[n];
 }
+
+class LRUCache {
+  capacity
+  map
+  head
+  tail
+  constructor(capacity) {
+    this.capacity = capacity;
+    this.map = new Map(); // key -> node
+    this.head = new DoubleNode(null, null); // dummy head
+    this.tail = new DoubleNode(null, null); // dummy tail
+    this.head.next = this.tail;
+    this.tail.prev = this.head;
+  }
+
+  _remove(node) {
+    node.prev.next = node.next
+    node.next.prev = node.prev
+  }
+
+  // add element right next to head
+  _addToFront(node) {
+
+    node.next = this.head.next
+    this.head.next.prev = node
+
+    this.head.next = node
+    node.prev = this.head
+  }
+
+  _printList() {
+  let curr = this.head.next;
+  const result = [];
+  while (curr !== this.tail) {
+    result.push(`[${curr.key}:${curr.value}]`);
+    curr = curr.next;
+  }
+  console.log('Cache state: ' + result.join(' <-> '));
+}
+
+  get(key) {
+
+    if (!this.map.has(key)) return -1;
+    const node = this.map.get(key);
+
+    // Move the accessed node to front
+    this._remove(node);
+    this._addToFront(node);
+    return node.value;
+  }
+
+  put(key, value) {
+    if (this.map.has(key)) {
+      const node = this.map.get(key)
+      node.value = value
+
+      this._remove(node)
+      this._addToFront(node)
+    } else {
+
+      if(this.map.size >= this.capacity){
+        const lru = this.tail.prev;
+        this._remove(lru);
+        this.map.delete(lru?.key);
+      }
+
+      const node = new DoubleNode(key, value)
+      this.map.set(key, node)
+      this._addToFront(node)
+    }
+  }
+
+}
+
+class DoubleNode {
+  key
+  value
+  next
+  prev
+
+  constructor(key, value) {
+    this.key = key
+    this.value = value
+    this.prev = null
+    this.next = null
+  }
+}
+
+const cache = new LRUCache(2);
+
+cache.put(1, 1);
+cache.put(2, 2);
+cache._printList(); // [2:2] <-> [1:1]
+
+cache.get(1);
+cache._printList(); // [1:1] <-> [2:2]
+
+cache.put(3, 3);
+cache._printList(); // [3:3] <-> [1:1]
+
+

@@ -11,7 +11,7 @@
 // (iii) UI rendering events like click scroll etc
 
 // Micro Task List
-// (i) .then, .catch, .finally
+// (i) .then, .catch, .finally, promises
 // (ii) queueMicrotask
 // (iii) MutationObserver (browser specific) - is a built-in browser API that allows you to watch for changes in the DOM
 
@@ -47,7 +47,7 @@ console.log("normal log");
 // Even the function is async, it does not means it's a macro task until something is defined with await in this funcion
 async function AsyncQueueFunction(){
     console.log("Aync Queue function") // this is a syncronus code, it will be executed first
-    await Promise.resolve("hello kitty") // this is an async code , it is a macro task . so has a least priority
+    await Promise.resolve("hello kitty") // this is an async code , it is a micro task . so has a least priority
     console.log("log after awaited promised"); // this log is printed after the completing of promise
     
 }

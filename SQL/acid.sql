@@ -118,4 +118,36 @@ UPDATE users SET age = age + 1 WHERE id = 1;
 -- To avoid, these typs of reads, we have already covered isolation techniques. Read Commited, Repeatable Reads and Serializable.
 
 
+-------------------------------------- Concurrency Control Techniques ----------------------------------------------------
+
+-- 1) Pessimistic Concurrency Control
+-- “Assume conflict will happen, so lock early.”
+
+-- How it works:
+-- Locks the data before any read/write.
+-- Prevents other transactions from accessing the same data until the lock is released.
+
+-- E.g 
+BEGIN;
+SELECT * FROM account WHERE id = 1 FOR UPDATE;
+-- Perform updates safely here
+COMMIT;
+
+-- Cons:
+-- Deadlock may occur. one transaction is waiting for another transaction to release the lock
+
+
+-- 2) Optimistic Concurrency Control
+-- “Assume conflict is rare, and check before commit.”
+
+-- How it works:
+-- No locks during read.
+-- At write time, checks if the data has changed since it was read.
+-- If data has changed, abort or retry.
+
+-- Cons: Complex retry logic
+
+
+-- 3) MVCC
+
 

@@ -148,20 +148,20 @@ multiplePromise
 // It is different from promise all and any because here we can define the concurrency but not in promises.
 // we can also make our own concurrent function using promises without using this lib.
 
-const async = require('async')
+// const async = require('async')
 
-const queue = async.queue(async (task, callback) => {
-  await new Promise((resolve)=>{
-    setTimeout(()=>{
-      resolve()
-    }, 1000)
-  })
-  callback()
-}, 2);
+// const queue = async.queue(async (task, callback) => {
+//   await new Promise((resolve)=>{
+//     setTimeout(()=>{
+//       resolve()
+//     }, 1000)
+//   })
+//   callback()
+// }, 2);
 
-// quque function takes 2 arguement, one is task function and other is concurrency limit
+// // quque function takes 2 arguement, one is task function and other is concurrency limit
 
-[1,2,3,4,5].map(item=> queue.push(item, ()=>{
-  console.log(`Done ${item}`);
+// [1,2,3,4,5].map(item=> queue.push(item, ()=>{
+//   console.log(`Done ${item}`);
   
-}))
+// }))
