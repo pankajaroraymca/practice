@@ -133,12 +133,12 @@ export default function Home() {
   const handleDownload = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8001/launch-nav/api/file/public/download/684a6c390efac41ff3f14bf1`, // Replace with your actual API route
+        `http://localhost:8001/launch-nav/api/file/public/download/6878f7b46ca57411060f2c08`, // Replace with your actual API route
         {
           responseType: 'arraybuffer',
           headers: {
             
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTA2ODEsInVzZXJJZCI6Mzc3LCJlbWFpbCI6ImV4dC12aWthcy5yYW5hQGluaXppb2Fkdmlzb3J5Lm9ubWljcm9zb2Z0LmNvbSIsIm5hbWUiOiJWaWthcyBSYW5hIiwidXNlcl9pZCI6IjM5NjdiNTNmLTVjMWQtNGNjNC1iOTQzLWRkMzZkNWY4YWNkNCIsImlhdCI6MTc0OTcxNTE5MCwiZXhwIjoxNzQ5NzE2MDkwfQ.d295BvZpC3HsdH4qhUrmPD7_3pLGFRkZmrVHVCuSh6I',
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTE3NTEsInVzZXJJZCI6Mzc3LCJlbWFpbCI6ImV4dC12aWthcy5yYW5hQGluaXppb2Fkdmlzb3J5Lm9ubWljcm9zb2Z0LmNvbSIsIm5hbWUiOiJWaWthcyBSYW5hIiwidXNlcl9pZCI6IjM5NjdiNTNmLTVjMWQtNGNjNC1iOTQzLWRkMzZkNWY4YWNkNCIsImFwcHMiOnsiYXB0Ijp0cnVlLCJpcHQiOnRydWUsInZvYyI6dHJ1ZSwicXVhbnQiOnRydWUsImxhdW5jaF9uYXYiOnRydWV9LCJpYXQiOjE3NTI4MzUxNDgsImV4cCI6MTc1MjgzNjA0OH0.CSrpD8n3ygwjipUj7UKFBJ13LM7NEXCAeRWVH4hK_6Q',
           },
         }
       );

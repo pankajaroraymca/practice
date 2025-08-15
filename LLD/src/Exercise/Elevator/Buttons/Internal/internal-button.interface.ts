@@ -1,3 +1,3 @@
 export interface IInternalButton {
-    pressButton(button: number): void
+    pressButton(button: number): boolean
 }
