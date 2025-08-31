@@ -59,5 +59,79 @@ function reassignment() {
   console.log("a,b,c", a,b);
   
 }
+// const is mutable, means if you have assigned the non primite data type in const varibale, you can change the properties of object.
 reassignment()
 
+// Interview Questions 
+
+for (var i = 0; i < 3; i++) {
+  setTimeout(() => console.log(i), 1000);
+}
+// 3 3 3
+// why ? var is function-scoped, so there’s only one i shared by all callbacks.
+
+
+for (var i = 0; i < 3; i++) {
+  setTimeout(() => console.log(i), 1000);
+}
+// 0 1 2
+// why ? let is block-scoped, so a new i is created for each iteration.
+
+for (const i = 0; i < 3; i++) {
+  console.log(i);
+}
+
+// It will give you an error. Because In a loop, the variable updates every iteration → not allowed.
+// But you can use const in for of and for in loops. because new binding is created every time
+
+for (var i = 0; i < 3; i++) {
+  ((j) => {
+    setTimeout(() => console.log(j), 1000);
+  })(i);
+}
+
+// 0 1 2
+// even though var is function scoped, but here we are usng IIFEE, so everytime callback get its own j parameter
+
+var x = 1;
+{
+  var x = 2;
+}
+console.log(x);
+// 2
+
+let y = 1;
+{
+  let y = 2;
+}
+console.log(y); // 
+// 1
+
+foo(); // ?
+
+function foo() {
+  console.log("Hello");
+}
+// hello
+
+bar(); // ?
+
+var bar = function() {
+  console.log("Hi");
+};
+// Type error: bar is not a function. Function expressions (bar) follow variable hoisting rules → bar is hoisted as undefined.
+
+function test() {
+  undeclaredVar = 5; // No var/let/const
+}
+test();
+console.log(undeclaredVar); 
+// 5 Because when not declared with anything, it is marked as global ( not function scope)
+
+function test() {
+  var undeclaredVar = 5; // No var/let/const
+}
+test();
+console.log(undeclaredVar); 
+
+// reference error. because function scoped

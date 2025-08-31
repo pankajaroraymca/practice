@@ -9,6 +9,7 @@ import { useEffect, useMemo, useReducer, useRef, useState } from "react";
 // -------------------------------------------------------------useState ---------------------------------------------------------
 
 // It is a built in hook which is used for state management
+// that lets you add state (data that changes over time) to a functional component.
 
 const [count, setCount] = useState(0);
 
@@ -173,6 +174,59 @@ export default function App() {
 
 
 // ------------------------------------------------ Use Callback -------------------------------------------------
+
+// useCallback is a React Hook that returns a memoized (cached) version of a function.
+// It’s mainly used to avoid unnecessary re-creations of functions on every render
+// dependencies → the array of values that, when changed, will re-create the function.
+
+function Parent() {
+  const [count, setCount] = useState(0);
+
+  const handleClick = () => {
+    console.log("Button clicked");
+  };
+
+  return (
+    <>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <Child onClick={handleClick} />
+    </>
+  );
+}
+
+const Child = React.memo(({ onClick }) => {
+  console.log("Child rendered");
+  return <button onClick={onClick}>Child Button</button>;
+});
+
+// here you can see, even we have memorized child component, but when state count changes, whole component is re render. because react memo compare props and functions are compared by reference
+// so when count changes, function is recreated so does their reference and child component is re render evcen with using of react memo
+
+// how to solve this?
+// we have to also memomrize handle click function, and by using usecallback we can memorize functions
+// now reference will remain same so child component will not be rendered again
+
+function Parent() {
+  const [count, setCount] = useState(0);
+
+  const handleClick = useCallback(() => {
+    console.log("Button clicked");
+  }, []); // ✅ No re-creation unless deps change
+
+  return (
+    <>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <Child2 onClick={handleClick} />
+    </>
+  );
+}
+
+const Child2 = React.memo(({ onClick }) => {
+  console.log("Child rendered");
+  return <button onClick={onClick}>Child Button</button>;
+});
+
+
 
 // ------------------------------------------------ Use ref -----------------------------------------------------
 

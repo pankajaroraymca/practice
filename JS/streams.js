@@ -1,6 +1,7 @@
 import fs from 'fs'
 // What are streams in js?
 // when you want to deal with data in chunks, streams come into play. They can read or write data in chunks without loading the whole data in ram.
+// In Node.js, streams are instances of the EventEmitter class.
 
 // There are 4 types of streams:
 
@@ -23,4 +24,8 @@ const writerableStream = fs.createWriteStream('output.jpg');
 readableStream.pipe(writerableStream); // copies file efficiently using streams
 
 // 3) Duplex stream
+
+// both readable & writable (e.g., TCP sockets).
+
 // 4) Tranaform stream
+// like duplex, but can modify data while passing through (e.g., zlib.createGzip for compression).

@@ -1,0 +1,146 @@
+# ----------------------------------------------- Why docker exists ? ------------------------------------------------
+
+# It solves the real world problem - it works on my machine ?
+
+# Before docker, when applications were moved to production stage, they were failing because of
+#  - different os versions
+#  - different libraries and dependecies
+#  - env variable and configurations
+#  - system level packages
+#  - deployments were complex as there were manual server configurations
+
+# deployment would requires vms to solve the env problem
+# - and they were heavy, cpu intensive
+# - slow bootup time
+# - poor resource utilization
+
+# Scaling was complex
+# - it was difficult to replicate the env. so horizotal scaling were difficult
+
+# But when docker came, these problems were solved:
+
+# consistency: the same container works everywhere across all envs
+# portability: the containers can run on any machine where docker is compatible
+# isolation: each docker container is isolated from another
+# true microservice archietecture: made it practical to break application smaller
+# fast deployments: no manual server config. write once and ready to deploy anytime in future
+# 
+
+
+# ----------------------------------- Container -----------------------------------------------------------------------
+
+# A lightweight virtual machine but online vm they share host os, and are more faster, smaller and thus memory effecient
+# So container is a lightweight env which is isolated from each other giving vm like benefits but with fewer resources.
+# They package your application + its dependencies (libraries, configs, etc.) in one unit.
+# Each container is isolated from each other.
+# As they are near to native kernel, performance is also similar.
+
+# -------------------------------------------- Images --------------------------------------------------------------------
+
+# Images are the blueprints for container. Without Images, containers are nothing.
+# These images are built via dockerfiles
+# Layers: Each instruction in Dockerfile creates a layer → caching optimizes builds. Means if there are no changes in layer, it is fetched from cache.
+
+# ------------------------------------------ Dockerfile ------------------------------------------------------------
+
+# A text file with instructions to build the image
+
+# FROM node:18                           BASE IMAGE
+# WORKDIR /app                           SET WORKING DIRECTORY
+# COPY package.json .                    COPY package.json file inside app
+# RUN npm install                        install all dependecnies
+# COPY . .                               copy all files inside app
+# ENTRYPOINT ["node", "server.js"]       when image is exec inside container, it will run node server.js
+
+#  ------------------------------------------Docker Hub / Registry ---------------------------------------------------
+
+# A registry is like GitHub, but for Docker images.
+# Docker Hub (public) is the default. You can pull images like:
+
+# docker pull nginx
+# docker pull postgres
+
+# Companies often have private registries (ECR, GCR, Azure ACR, etc.).
+
+# -------------------------------------------- Volumes --------------------------------------------------------
+
+# Containers are ephemeral (data is lost if container stops).
+# Volumes provide persistent storage outside the container lifecycle.
+# Example: You run MySQL in Docker, but store its DB files in a volume so they survive restarts.
+
+# docker run -v mydata:/var/lib/mysql mysql
+
+#  mydata will be created in my host and mysql stores it's data at /var/lib/mysql. So /var/lib/mysql data is mapped to mydata in host.
+
+# --------------------------------------------Networks------------------------------------------------------
+
+# Containers can communicate with each other via Docker networks.
+# By default, each container is isolated. By default containers are connected to bridge network. There are host, none network drivers also.
+# You can create a bridge network so containers talk via container names.
+
+docker network create myapp
+docker run -d --network myapp --name db postgres
+docker run -d --network myapp --name app custom-image
+
+# It creates a network my-app
+# Both containers are now using same network.
+# now app container can use postgres db.
+
+# Note: In bridge network, we have to map ports, but in host network, containers are using host network so port mapping is not required.
+
+# ------------------------------------------ Docker Compose ----------------------------------------------
+
+# to manage multiple containers. you can start stop multiple container at once using a docker compose file
+# it is used widely because then you have to run each container manually and made configs related to volumes, networks env etc.
+# but with this simple compose file, you can do it at once. and manage their relationships easily
+# docker compose is good for dev/testing. Use kubernetes for production orchestration
+
+version: '3.8'
+services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    depends_on:  # depends_on waits for app container to start first
+      - app
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+
+  app:
+    build: ./app
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_PASSWORD: secretpassword
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:alpine
+
+volumes:
+  db_data:
+
+#  total 4 container will be affected. nginx, app, db, redis.
+# some common commands
+
+docker-compose up -d        # Start all services in background
+docker-compose down         # Stop and remove all containers
+docker-compose ps           # Show running services
+
+# ----------------------------------------- Docker Daemon ----------------------------------------
+
+# The Docker daemon (dockerd) is the core background service that manages Docker containers, images, networks, and volumes on a host system.
+# It's the "engine" that makes Docker work.
+
+# docker run → run a container
+# docker ps → list containers
+# docker exec -it <container> bash → enter a container
+# docker build -t myapp . → build image from Dockerfile
+
+
+
