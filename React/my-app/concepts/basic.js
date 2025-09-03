@@ -203,6 +203,21 @@ function WindowSizeComponent() {
 // 2) getSnapshotBeforeUpdate()
 
 
+// ------------------------------------------------- Cross origin resource sharing (CORS) ---------------------------------------------------
 
+// It is security mechanism provided by the browser that controls how resources are requested from different domains
 
+// Example scenario:
+// Your frontend app runs at http://localhost:3000
+// Your backend API runs at http://localhost:5000
+// When your frontend tries to call the backend API (fetch("http://localhost:5000/data")), the browser blocks the request by default because it’s a cross-origin request.
 
+// How it works?
+
+// The server sends a preflight request to the server - am i allowed to access resource from this domain
+// then server sends the response
+// Access-Control-Allow-Origin: http://localhost:3000
+// Access-Control-Allow-Methods: GET, POST, PUT
+// Access-Control-Allow-Headers: Content-Type, Authorization
+
+// If headers are valid → the browser allows the request. If not → the request is blocked.

@@ -65,3 +65,43 @@ function multiplier(factor) {
 
 // Note: First class fns are the reason for Higher order fns but not vice versa.
 
+
+// --------------------------------- Call, bind, Apply ----------------------------------------
+
+function greet(city, country) {
+  console.log(`Hello, my name is ${this.name}, from ${city}, ${country}`);
+}
+const person = { name: "Pankaj" };
+
+greet.call(person, "Delhi", "India");
+// Calls a function immediately with a given this value and arguments passed individually.
+
+greet.apply(person, ["Delhi", "India"]);
+// Similar to call(), but arguments are passed as an array.
+
+const greetPankaj = greet.bind(person, "Delhi", "India");
+greetPankaj();
+// Returns a new function with this bound, but doesn’t call it immediately.
+
+// -------------------------------- this keyword ---------------------------------
+
+// this keywords refers to the context in which the function is invoked.
+
+const user = {
+  name: "Pankaj",
+  greet() {
+    console.log(this.name);
+  }
+};
+
+user.greet(); // "Pankaj"
+
+const user2 = {
+  name: "Pankaj",
+  greet: () => {
+    console.log(this.name);
+  }
+};
+
+user2.greet(); // undefined
+// why ?  because Arrow functions don’t have their own this. They inherit this from the surrounding lexical scope.

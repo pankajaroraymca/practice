@@ -5,3 +5,5 @@ JS/node_modules
 NodeJs/node_modules
 kafka/node_modules
 redis/node_modules
+nest-js/node_modules
+nest-js/test

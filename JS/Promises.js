@@ -1,3 +1,6 @@
+// What are promises ?
+// Promoes are the js objects that represent eventual completion or failure of an async operation and it's resulting value
+
 const result = Promise.resolve("RESOLVED VALUE");
 
 console.log(("result", result));

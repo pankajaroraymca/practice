@@ -58,10 +58,27 @@ VALUES (100000, 1),
 -- There are different types of Joins: 
 -- 1) Cross Join
 -- 2) Inner Join
--- 3) Left Join
--- 4) Right Join
--- 5) Full Join
+-- 3) Left Join = Right Outer Join
+-- 4) Right Join = Left Outer Join
+-- 5) Full Join = Full Outer Join
 -- 6) Self Join
+
+-------------------------------------------------- How joins work ? ---------------------------------------------------
+
+-- Basically for every record in Table A, joins looks for matching condition in all records of Table B
+-- Let's suppose you have two tables A and B
+
+-- Table A              Table B
+id name                  id  name
+1  Pankaj                1   Pankaj
+2  Pankaj                2   Pankaj
+3  Pankaj
+4  Manish
+
+-- Inner Join will give you 6 entries of Pankaj. why? because each record in table A has a matching 2 records in Table B. So 2*3 = 6
+-- Left Join will give you 7 entries. 6 Pankaj and 1 Parth
+-- Right Join will give you 6 entries of Pankaj
+-- Full Join will give you 7 entries , 6 Pankaj and 1 Parth.
 
 --------------------------------------------------Cross Join -----------------------------------------------------------
 
@@ -142,4 +159,6 @@ Select * from employees e FULL JOIN department d on e.department_id = d.id;
 -- 4) Many to Many
 -- Rows in Table A can relate to many rows in Table B, and vice versa
 -- E.g A student can be enrolled in multple courses. And a courses can have multiple students
+
+SELECT * from tablea inner join tableb on tablea.name = tableb.name;
 
