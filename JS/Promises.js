@@ -165,3 +165,17 @@ multiplePromise
 //   console.log(`Done ${item}`);
   
 // }))
+
+// ----------------------------------------- What is top level await -----------------------------------
+
+// we know that to use await, we must wrapt it in the async function
+// BUt we can create top level await when the file is .mjs or we are using type: "module" in package.json
+
+const response = await fetch("https://api.example.com/data");
+const data = await response.json();
+console.log(data);
+
+// pros: cleaner code
+
+// drawbacks:
+// when you try to import this module, then it will wait for the module to resolve the depency. so it can create a chain of delays

@@ -47,3 +47,10 @@ SELECT e.name as ename, d.name as dname , s.amount as salary, depmax.salary as m
 (SELECT MAX(s.amount) as salary, d.id as did FROM employees e INNER JOIN salary s on e.id = s.emp_id INNER JOIN department d on e.department_id = d.id GROUP BY d.id) as depmax on d.id = depmax.did where s.amount = depmax.salary;
 
 -- Note: When subquery is returning multiple rows or multiple columns and criteria is based on using those multiple fields, make sure to use from clause or Join them.
+
+-- Ques. Find the nth highest salary from the salary table.
+-- Note: This is a tricky question. There are multiple ways to solve this problem.  
+
+SELECT DISTINCT s.amount from employee e inner JOIN salary s on e.emp_id = s.emp_id  where 2 = ( SELECT count(DISTINCT s2.amount) from employee e2 inner JOIN salary s2 on e2.emp_id = s2.emp_id where s2.amount >= s.amount);
+
+SELECT AMOUNT FROM (SELECT s.amount, DENSE_RANK() over (ORDER BY s.amount DESC) as rnk from employee e inner JOIN salary s on e.emp_id = s.emp_id) ranked where rnk = 2;

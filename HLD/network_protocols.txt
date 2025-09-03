@@ -1,0 +1,22 @@
+What are netwrok protocols?
+
+Network protocols are rules and standards that defines how data is transmitted, interpreted and received over the internet
+Regardless of any hardware and software, two devices can comuunicate with each other.
+
+There are several layers of Network
+1. Application layers: HTTP, FTP, SMTP, Websocket
+2. Transport layers: TCP/UDP
+3. Link layers: Physical and data link
+4. Internet Layer: Handles addressing & routing (IP).
+
+Say you open https://example.com in your browser:
+Application Layer → Browser uses HTTP/HTTPS.
+Transport Layer → Uses TCP to ensure data arrives correctly.
+Internet Layer → IP finds the server’s address & routes packets.
+Link Layer → Wi-Fi/Ethernet transmits the raw bits.
+
+TCP vs UDP
+In TCP, connection is established between client and server. data is sent in packets, each packet is ordered. 
+once it rewaches its destinaions, it is acks.
+But in UDP, connection is not made, data is sent in packets but are not ordered and also not acks. It is fast as compared to TCP. 
+UDP is widely used in live streaming platforms where data packets loss is not a big deal.
