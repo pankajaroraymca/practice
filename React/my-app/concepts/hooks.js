@@ -317,6 +317,7 @@ const About = lazy(() => import('./pages/About'));
 // 1) React.memo
 // 2) Use memo hook
 // 3) Lazy Loading
+// 4) use callback
 
 
 
