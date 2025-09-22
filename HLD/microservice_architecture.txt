@@ -1,0 +1,56 @@
+When we design microservices, the big challenge is:
+How do we break a large monolithic application into smaller, independent services?
+
+There are some established decomposition patterns:
+
+1. Decomposition by Buisness Capability
+Each microservice aligns with a business capability (like "Payment", "Inventory", "Order").
+
+2. Decomposition by Subdomain (Domain driven design)
+Each microservice owns its data + logic within its domain.
+Monolith services decompose first with business capability then further decompose with sub domains.
+Like in Payment microservice, they will further decompose to forward and reverse (refund) payments services.
+
+3. Strangler pattern
+Start with a monolith, then incrementally carve out services into microservices.
+Pick a non-critical but valuable module (e.g., User Authentication, Notifications).
+Create a new microservice (with its own DB if possible).
+Route all relevant requests from the monolith to the new microservice (via API gateway, reverse proxy).
+Keep moving modules one by one. Over time, the monolith shrinks until it disappears.
+
+Note: While designing microservices, its a good practive for microservice to have their own db. Why?
+If one microservice is experincing high traffic, then it needs to scale only its server and db.
+If the database is shared, then in case service A makes some changes in db, then other services will also be impacted if using the same tables.
+
+Cons:
+if databases are different for each service, you can not directly access data of another serivce directly from db. It needs to be accessed from API. Solved By CQRS
+Transactions are impossible in microservice architecture. Order --> Inventory --> Payment. If at Payment step, my transactions fails, how will i rollback? Solved by Saga Pattern
+
+4. Saga pattern
+Saga Pattern is a key concept in microservice architecture for handling distributed transactions.
+In microservices, each service has its own DB. So if an Order Service calls Payment Service and Inventory Service, you can’t use a single ACID transaction.
+Saga Pattern ensures data consistency in microservices without distributed transactions. How? lets see this...
+
+A Saga is a sequence of local transactions.
+Each service executes a local transaction and publishes an event.
+If something fails, previously completed steps are compensated (rolled back logically).
+
+There are 2 types of technique for saga implementation
+
+4.1 Choreography (Event-driven)
+Each service listens for events and reacts.
+Example: There are 3 services, order service, inventory service, payment service. When order is placed, local transaction happens in order service
+, then it send a event to payment service, then payment service do its work and then sends a payment_success event to inventory but at this step,
+tansaction fails, so inventory send a fail event back to payment service, then it will rollback its transaction and then fail event is also send 
+to order service, to cancel the order. So they are sending events to each other to update communication.
+
+4.2 Orchestration (Centralized Controller)
+A central Saga Orchestrator manages the workflow.
+Order Service asks Saga Orchestrator to start order. Orchestrator calls Payment Service → waits for response.
+If successful → Orchestrator calls Inventory Service. If failure at any step → Orchestrator triggers compensations (e.g., refund).
+
+Bonus:
+CQRS - Command Query Responsibility Segregation
+We know in microservice architecture, they have their own db and one service can't get data directly from another service db.
+to solve this, we made a new separate db shared view for all microservice. all reads which are required by other services will be made through this.
+we can update this view using triggers or events.

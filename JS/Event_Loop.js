@@ -157,6 +157,13 @@ child.on('message', (msg) => {
 // but in child process, a new process is created, which has its own memory and resources usage. Now in child process i can again create worker threads.
 // 2) Worker threads communicate faster as they are in the same process.
 
+// ------------------------------------------------- Spawn ------------------------------------------------------------------------
+
+// It is also used to create a new process but for executing commands
+// Let's suppose you want to read the log file, so you write a command for it.
+// Spawn gives the output in streams that's why it is good, it does not load the whole data in memory. so now you can stream the output also.
+// Spawn is good for hadling long running tasks.
+
 
 // ------------------------------------------------Clustering ---------------------------------------------------------------------------------------------
 
@@ -215,6 +222,15 @@ child.on('message', (msg) => {
 //  ├─ Core 1 → can run Thread 1
 //  ├─ Core 2 → can run Thread 2
 //  └─ Core 3 → can run Thread 3
+
+// ------------------------------------------ What's the difference between the Client JS v8 engine and server Nodejs V8 engine-----------------------------
+
+// 1) The core language functionality remains same like promises,  async/await, etc.
+// 2) Client Js v8 primarly runs for web pages, UI interactions and client side logic while node js runs for servers, backend apps
+// 3) Clinet Js v8 has Web API( DOM, localstorage, BOM, settimeout) while Node Js v8 engine has Node API (fs, http, buffer etc, settimeout)
+// 4) Client Js v8 event loop is handled by browser while in node js it is handled by libuv library
+// 5) Clinet Js v8 is only restricted to web page in browser, it can not access os directly but in node js it has full access to os and processes.
+// 6) Client Js v8 global object is window, while in nodejs, its a node js objects plus processes
 
 
 

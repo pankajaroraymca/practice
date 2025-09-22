@@ -133,7 +133,10 @@ function UncontrolledInput() {
 // 3) Context API can lead to performance issue in large scale applications because it can cause re render of all components who are consuming the state from context APIs.
 // But it can be optimized but needs extra attention. But on the other hand redux has built in optimizations to prevent unnecessary re renders of component.
 
-// 4) Redux provide advanced debugging tools for developers like state diff, actions logs, time travel etc but context API has basic React devtools.
+// 4) Redux enforces a clear flow of data: actions → reducers → updated state → UI. Thus making it easier to understand the flow of data.
+// Also easier to understand the codebase. Context API does not enforce any such flow.
+
+// 5) Redux provide advanced debugging tools for developers like state diff, actions logs, time travel etc but context API has basic React devtools.
 // That's why developer prefer redux for large scale apps because it is more complex to debug.
 
 // -------------------------------------------------------------- What are error boundaries ---------------------------------------------------

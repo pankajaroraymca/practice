@@ -29,3 +29,8 @@ readableStream.pipe(writerableStream); // copies file efficiently using streams
 
 // 4) Tranaform stream
 // like duplex, but can modify data while passing through (e.g., zlib.createGzip for compression).
+
+// ---------------------------------- Diff between events and stream --------------------------------------------
+
+// A stream is a continuos sequence of events over time
+// while event is a single occurence of something happening

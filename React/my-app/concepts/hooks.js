@@ -319,6 +319,7 @@ const About = lazy(() => import('./pages/About'));
 // 1.1) Use Callback
 // 2) Use memo hook
 // 3) Lazy Loading
+// 4) use callback
 
 
 

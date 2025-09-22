@@ -1,0 +1,67 @@
+Dynamo DB is a key value DB developed by Amazon
+
+So we will cover main topic while designing it.
+1. Scalability
+2. Replication
+3. Put, Get, Remove Operations
+4. Data Versioning
+5. Gossip Protocol
+6. Merkle Trees
+
+Scalability
+For a key value store, data will be stored in a hashmap but for scalibility purposes, not all data will be stored in one hashmap
+We will have multiple hashmaps i.e shards in each server which will hold data for different key ranges
+Let's suppose we have 4 shards 1 to 100 will be Shard A, 101 to 200 in Shard B and so on.
+This will be handled by the consistent hashing where there are nodes with their virtual nodes also to distribute load evenly
+This way we can achieve high scalability.
+
+Replication
+For high availablity, we have to replicate data to other shards also in the ring in clockwise direction
+The data needs to be replicated to N-1 nodes, where N is configurable say 3. So 2 nodes will have replicated data
+The data will be replicated asyncronosly to other nodes or we can define custom rules w:1 or w: majority
+Each node will have its cordinator which have the preference list. Like for node A, its replication nodes are Node D and node M
+So preference list will be [Node A, NodeD, Node M] where Node A is the cordinator and rest are replication nodes of it.
+It is useful when cordinator is down, so their first available replication nodes will do their task
+
+CRUD Operations
+Write - The key is hashed, and based on the range, node is choosen. The write is acks according to W rule, it can be 1 or majority or async operation
+If the main node is down, the write is written to its replicas nodes. If in network failure, there exist multiple versions of the same key
+then it must be resolved thhrough various techniques which will be discuseed in Data versioning
+Read- The key is hashed and the req is sent to concerned node. A read is acks according to the set rules of r, it can be 1 or majority.
+If there are multiple versions of data from different node, coordinator merges it if mergable or both the versions are returned to client
+Now client will resolve according to LWW or some other techniques. This will be discussed in Data Versioning
+
+Data Versioning
+The data consist of key, value and metadata. Metadata have version, timestamp, ttl, content type etc.
+According to CAP, here we have choosen AP, it means if there is a network problem, shards can't talk to each other.
+Initially for key1 value is TRUCK. As we said, if primary node is down, traffic is sent to its replicas. Say for Key1 data set is CAR in replica node.
+now primary node is up but replica node is down, now for key1 data set is BIKE. Now when both are up and a Read req is sent
+we will have two different data for same key1. But here comes the solution. The data is stored in vector clock format means
+Each node have its own version of it. [node_id:counter]
+Initially data for Key1 in all nodes TRUCK [nodePrimary:1]
+When Primary NOde goes down, data is set to replica node -> TRUCK[nodePrimary:1], CAR[ReplicaNode:1]
+When Replica Node goes down, data is set to Primary NOde -> Bike[nodePrimary:2]
+
+Now there are two different version clocks for each node, so it must be resolved
+Either it will be resolved when reading by coordinator or client will resolve it logically using LWW (Last Write Win) or other techniques
+When resolved, it will put the resolved data for key1.
+
+Gossip Protocol
+In large distributed systems, Nodes join/leave/fail frequently.You need a way for all nodes to know cluster membership without a central coordinator.
+Centralized solutions (like ZooKeeper) → single point of failure, bottleneck.
+Gossip protocol is decentralized, fault-tolerant, and scalable.
+Each node maintains a membership table: NodeID, Status (alive/suspect/down), Heartbeat counter (monotonic increasing), Timestamp (last update)
+A Heartbeat is sent to other nodes, and the counter is maintained. If other nodes does not responds, it retries after sometime. And if again does not
+responds, this node is marks as dead and removed from the ring.
+
+Merkle Trees for fault tolerant
+In Dynamo-like systems, Each key has N replicas (say 3). Over time, due to temporary node failures, network partitions,
+replicas of the same partition can diverge (one node has extra/missing/older keys).
+We need a way to detect and repair differences across replicas without comparing every single key (too costly).
+A Merkle tree (hash tree) is a binary tree where:
+Leaves = hash of data chunks (e.g., hash of key-value ranges).
+Internal nodes = hash of their children.
+Root hash = represents the entire dataset compactly.
+If two replicas have the same root hash → their data is identical.
+If different → traverse down to find where the difference is. Then the data is fixed for it in the background
+Each replica node maitains its Merkle Tree.

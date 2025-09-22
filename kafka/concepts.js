@@ -61,3 +61,11 @@
 // if we have 3 partitions and 4 consumers, then one consumer will consume messages from 1 partition and the other from 2 partitions. one will remain idle.
 // so we can scale horizontally by adding more partitions and consumers.
 // SO a partition can only have one consumer, but a consumer can have multiple partitions.
+
+// -------------------------------------------- Consumer Groups -----------------------------------------------
+
+// Multiple consumers in the same consumer group
+// Each consumer can listen to only 1 partition of topic
+// If you want to listen partition multiple times, then create another consumer group.
+// Kafka assigns only one consumer in a group to listen from one partition.
+// Even if consumer from the group A consumes it and acks it, the other consumer from group B still has this message. THe offset in manage at each consumer group level,

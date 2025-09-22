@@ -1,0 +1,47 @@
+A back-of-the-envelope estimation is a quick, approximate calculation of the application in terms of number of servers, cache, storage etc.
+It should be a rough idea not correct numbers
+THe idea is to take simple value like 1k, 1M, 10M etc for easy calculations
+
+So we are going to get the estimation for facebook service., which includes servers, ram, and storage.
+Design System such that it is scalable. But asks the interviewer do we need multiple servers, LBs, CDNs, caching techniques, write-read dbs etc.
+
+But before this let's understand few calculation logics
+
+3 zeroes | Thousand  | KB
+6 zeroes | Million  | MB
+9 zeroes | Billion  | GB
+12 zeroes | Trillion  | TB
+15 zeroes | Quadtrillion  | PB
+
+Each character holds 2 bytess in unicode
+Each double value holds 8 bytess
+Each image average 300KB
+
+We are assuming facebook has total 1 billion users
+Around 25% user are daily active users means 250 Million
+Each cusomer makes around 75 read request and 25 write request daily
+Each user create 2 post daily
+
+Storage calculation:
+Each post has 1 image 250 chars
+250 chars --> 500 bytes
+2 post --> 1000 bytes / 1Kb
+2 images --> 600Kb
+Each user takes around 600Kb daily
+250 Million * 600kb = 150000 GB / 150TB
+So daily 150 TB is required for all active users post
+
+Server Load Calculation:
+Each user makes 100 request a day
+250 Milion * 100 = 25000 Million request a day
+Each day has 86400 sec, lets take 100000
+25000/100000 = 0.25 Million req per second
+Each operation latency is 500ms, and the server has 50 threads
+So each second 100 req can be fulfilled by one server
+250000/100 = 2500 servers are needed
+
+Ram/Cache calculation
+Every User last 5 post are stored in cache
+Each post is aprrox 500 bytes, 5 post 2500 bytes, 2.5KB. let's take 3KB
+250 Million * 3KB = 750GB RAM
+Each server has 75Gb Ram, total 10 cache servers are needed.
