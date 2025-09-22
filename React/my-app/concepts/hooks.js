@@ -42,6 +42,7 @@ useEffect(() => {
     // some logic...
   };
 }, []); // the code inside the return function will be executed when the component is removed from the dom.
+// Note: the code inside the return statement will be executed first before running the main login, it means component is cleaned up first before running another side effect
 
 // ----------------------------------------------------- Custom Hooks -----------------------------------------------------
 
@@ -315,6 +316,7 @@ const About = lazy(() => import('./pages/About'));
 // --------------------------------------------- What are react optimization techniques? ------------------------------------------------
 
 // 1) React.memo
+// 1.1) Use Callback
 // 2) Use memo hook
 // 3) Lazy Loading
 

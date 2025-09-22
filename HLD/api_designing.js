@@ -27,3 +27,26 @@
 // Implement pagination for longer responses
 // Decide sync vs async api. Long running task may require asybc or event driven approach
 
+// ----------------------------------- REST APIs ---------------------------------
+
+// Representational State Transfer. Principles of it
+// 1) Stateless
+// 2) Clinet Server Architecture
+// 3) Layered System: Client does not know whether it is connected to load balancer or actual server
+
+// ----------------------------------- API testing -------------------------------
+
+// Strcture the API testing process according to the Testing Pyramid
+
+// 1. Unit Test: Write tests for the individual functions, classes, or modules that make up the API usng jest
+// 2) Integration Testing: Thes tests verifies that different parts of the API are working fina like it correctly calls the service layer
+// interacts with the database and return the expected result.
+// 3. E2E Testing: These testing mimics the full user flow. Like logging into the application, filling the details and proceding to final steps.
+
+// Functional Testing
+// 1. APIs should behave according to their contacts. We can use Swagger for thid.
+// 2. API tests should include data validation step and
+
+// Non-Functional Testing
+// 1. Load Testing: how much time it takes to return the response, how many concurrent users can access the API
+// 2. Security Testing: Authentication, uthorization and input validation and sanitization.

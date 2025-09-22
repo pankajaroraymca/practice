@@ -20,4 +20,10 @@
 // Note: Primitve data types are pass by value while others are pass by reference. so comparisons will also be pass by reference
 // Non primitve data types are mutable means content can be changed even after declaring with const
 
-// type of null is object Because it's a long history bug which they on purpose not resolving.
+// type of null is object Because it's a long history bug which they on purpose not resolving
+// type of array is also object. ["Pankaj","Snigdha"]. why because internally ther are stored like this with length property
+//  {
+//     0:"Pankaj",
+//     1:"Snigdha",
+//     length:2
+//  }

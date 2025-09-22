@@ -1,0 +1,36 @@
+How to scale application from 0 to million users?
+
+1. Application and DB server separation
+
+2. Multiple Application Servers and Load Balancer
+
+3. Database Replication
+Master and Slave concept. One db for write only and other dbs for read only. Different data syncronus techniques based on either availability or consistency
+
+4. Cache
+Cache frequent db access data to avoid db expensive calls
+
+5. CDN ( Content delivery network)
+CDN does caches but not all cache tools are cdn's.
+It is a globally distributed network of servers that delivers web content (static and sometimes dynamic) to users based on their geographic location.
+Instead of every user fetching resources directly from your origin server (say, in Mumbai), a CDN caches and serves those resources from edge servers located closer to the users
+(say, in New York, London, or Singapore). E.g Cloudflare
+Benefits of cdn
+5.1 Good Performance and low latency: The nearest edge node serves cached content, reducing round-trip latency and improving load time.
+5.2 Reduced Load on Origin: Static content (images, CSS, JS, videos, fonts, etc.) is cached at the edge.
+5.3 Security: CDNs provide built-in DDoS protection, WAF (Web Application Firewall), bot filtering, and SSL termination
+
+There are different cache strategies at CDN
+TTL: Cache is automatically clared after certain period of time, then after new request,  cdn asks from origin and updates it in cache also and also serve thr client.
+Validation-based Caching: CDN first verifies from origin if the cache is valid or not by last modified or Etag, then if its ot valid it gets updated data from origin and serve the client.
+Pull Push: CDN first pull data from origin on first request , then origin proactively pushes updated data to the CDN.
+
+What is Cache Invalidation?
+It is the process to remove the stale cache data so that content delivered is always upto date.
+
+There are some method to do this...
+
+1 TTL: Cache will be automatically expired. But client can still see stale data until data expires
+2. Manual Purge: remove the cached file manually, so next time cdn will fetch it from origin
+3. Cache Busting / Versioning: Change the filename, from app.v1.js to app.v2.js. So CDN will automatically fetch the new resource from origin.
+4. Validation-based Caching: But extra overhead everytime.

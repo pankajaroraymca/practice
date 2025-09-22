@@ -52,7 +52,7 @@ VALUES (100000, 1),
 (200000, 5),
 (125000, 6);
 
--------------------------------------------------------------------JOINSß-------------------------------------------------
+-------------------------------------------------------------------JOINS-------------------------------------------------
 
 -- A join is way to combine rows from two or more related tables baed on related columns through the concept of foreign key.
 -- There are different types of Joins: 

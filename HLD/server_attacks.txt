@@ -1,0 +1,26 @@
+Network Level Attacks
+
+1. Dos ( Denial of service)
+When server is flooded with multiple request to exhaust the system capacity, Making the service unavailable to legitimate users. Here request comes from single source
+
+2. Ddos (Distributed Denial of Service)
+Same as dos but request from multiple sources also knows as botnet. making it far more powerful and harder to block.
+
+Application Level Attacks
+
+1. Sql Injection
+Injecting malicious SQL queries into input fields to manipulate the database.
+
+2. XSS ( Cross Site Scripting )
+Injecting malicious scripts into web pages viewed by other users.
+How to prevent it?
+Use a Content Security Policy (CSP). It Prevents loading inline scripts or malicious external JS.
+Sanitize User Input: Strip dangerous HTML/JS tags (<script>, <iframe>, <img onerror=...>) before storing or displaying.
+HTTP-Only & Secure Cookies: Prevent attackers from stealing session cookies via XSS.
+
+3. CSRF (Cross Site Request Forgery)
+tricks an authenticated user’s browser into making unwanted requests to a web app without their knowledge.
+How to prevent?
+Use same site strict
+dont allow request from another domain
+re verify for critical request.

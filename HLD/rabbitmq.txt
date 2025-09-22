@@ -1,0 +1,23 @@
+RabbitMQ is an open source messaging broker. It helps us to decouple services or functionalities.
+
+Producer: The application that sends or "publishes" a message..
+Consumer: The application that receives or "consumes" a message..
+Queue: A buffer where messages are stored until a consumer is ready to process them. A queue can hold messages from multiple producers.
+Exchange: The routing agent that receives messages from producers and decides which queue(s) to send them to. It doesn't store messages; it just directs them.
+Binding: A set of rules that links an exchange to a queue. It tells the exchange, "Messages that look like this should go to that queue."
+Routing Key: An attribute on the message that the exchange uses to decide how to route it.
+
+In RabbitMQ, messages are not preserved. Once they are consumed they are deleted from the queue. And if they are not ack, they can be retried.
+When they are nack, they will be requeued( config requeue=true ) and can cause infinite loop.
+to avoid this either configure requeue = false or enable dead letter exchange where messages are removed from the main queueu
+and pushed to the DLE queue.
+
+RabbitMQ throughput is lower than kafka because rabbitmq broker is smart, it track each message status(ack,nack), it handles complex routing logic, it handles which queue
+it needs to send the message. so all this adds a overhead. While on the other hand, kafka broker is dumb, all critical logic like offset are handled by consumer.
+That's why kafka throughput is higher. 
+
+There are different type of exchanges
+1. Direct: A direct exchange delivers messages to queues based on an exact match between the message's routing key and the queue's binding key
+2. Fanout: A fanout exchange ignores the routing key and broadcasts every message it receives to all queues that are bound to it.
+3. Topic: A topic exchange routes messages to queues based on a wildcard pattern match between the message's routing key and the queue's binding key. Routing keys are a list of words separated by dots (e.g., logs.auth.error).
+A binding of logs.*.error would match routing keys like logs.auth.error and logs.payment.error but not logs.auth.info.
